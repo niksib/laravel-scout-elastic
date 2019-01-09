@@ -275,4 +275,24 @@ class ElasticsearchEngine extends Engine
             return [$order['column'] => $order['direction']];
         })->toArray();
     }
+    
+        /**
+     * @param null $index
+     * @param $type
+     * @param array $mapping
+     * @return array
+     */
+    public function putMapping($index = null, $type, array $mapping)
+    {
+        $params = [
+            'index' => $index,
+            'type' => $type,
+            'body' => [
+                $type => [
+                    'properties' => $mapping
+                ]
+            ]
+        ];
+        return $this->elastic->indices()->putMapping($params);
+    }
 }
